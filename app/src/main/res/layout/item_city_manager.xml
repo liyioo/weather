@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:id="@+id/item_city_cv"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:contentPadding="10dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/item_city_tv_city"
+                android:text="北京"
+                android:textSize="22sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_city_tv_temp"
+                android:layout_alignParentRight="true"
+                android:text="12℃"
+                android:textSize="40sp"
+                android:layout_marginRight="20dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/item_city_iv_line1"
+                android:layout_below="@id/item_city_tv_temp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#808A87"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_city_tv_conditon"
+                android:textSize="16sp"
+                android:text="天气：晴"
+                android:layout_below="@id/item_city_iv_line1"/>
+
+            <TextView
+                android:layout_width="2dp"
+                android:layout_height="20dp"
+                android:id="@+id/item_city_iv_line2"
+                android:layout_toRightOf="@id/item_city_tv_conditon"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/item_city_iv_line1"
+                android:background="#808A87"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_city_tv_wind"
+                android:textSize="16sp"
+                android:text="西南风2~3级"
+                android:layout_toRightOf="@id/item_city_iv_line2"
+                android:layout_below="@id/item_city_iv_line1"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/item_city_tv_tempRange"
+                android:textSize="16sp"
+                android:text="12~20℃"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/item_city_iv_line1"
+                android:layout_marginRight="20dp"/>
+
+
+            
+            
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+</LinearLayout>
