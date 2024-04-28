@@ -39,7 +39,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
     private SharedPreferences pref;
     private int bgNum;
     LinearLayout futureLayout;
-    private boolean cnt = false;
+    public boolean cnt = false;
     String city;
     String url1 = "https://api.caiyunapp.com/v2/place?query=";
     String url2 = "&token={Pc7FiRrbxSK03cOp}&lang=zh_CN";

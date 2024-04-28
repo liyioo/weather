@@ -1,23 +1,39 @@
 package com.example.weather;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+import android.Manifest;
+import androidx.core.app.ActivityCompat;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.weather.cityManager.CityManagerActivity;
 import com.example.weather.db.DBManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     CityWeatherFragment cwFragment;
     private SharedPreferences pref;
+    private LocationManager mLocationManager;//定位管理器对象
+    private Handler mHandler = new Handler();//处理器对象
+    private boolean isLocationEnable = false;//定位服务是否可用
     private int bgNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -50,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainVp = findViewById(R.id.main_vp);
         addCity_iv.setOnClickListener(this);
         more_iv.setOnClickListener(this);
+
 
         fragmentList = new ArrayList<>();
         cityList = DBManager.queryAllCityName();//获取数据库的城市列表
@@ -80,6 +101,113 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+    @Override
+    protected void onResume() {
+        Log.i("resume","resume");
+        super.onResume();
+        mHandler.removeCallbacks(mRefrsh);
+        initLocation();
+        mHandler.postDelayed(mRefrsh,100);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationManager.removeUpdates(mLocationListener);
+    }
+
+    private Runnable mRefrsh = new Runnable() {
+        @Override
+        public void run() {
+            if(!isLocationEnable){
+                initLocation();
+                mHandler.postDelayed(this,1000);
+            }
+        }
+    };
+
+    /*初始化定位服务*/
+    private void initLocation() {
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();//创建一个定位准则对象
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+        criteria.setBearingRequired(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        String bestProvider = mLocationManager.getBestProvider(criteria,true);
+
+        if (bestProvider != null) {
+            if (mLocationManager.isProviderEnabled(bestProvider)) {
+                beginLocation(bestProvider);
+                isLocationEnable = true;
+            } else {
+                isLocationEnable = false;
+            }
+        } else {
+            Log.e("Location", "No provider found");
+            // 处理找不到位置提供程序的情况
+        }
+
+
+
+    }
+
+    private String getCurrentCity(Location location){
+        if(location != null){
+            String cityName = "";
+            Log.i("location",location.getLongitude() + "");
+
+//            String url3 = "https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/";
+            String lng = String.valueOf(location.getLongitude()) ;
+            String lat = String.valueOf(location.getLatitude());
+            /*String url4 = "/daily.json";
+            String urlNow = url3 + lng + "," +lat +url4;*/
+            Geocoder ge = new Geocoder(this);
+            List<Address> list = null;
+            try {
+                list = ge.getFromLocation(Double.parseDouble(lat),Double.parseDouble(lng),1);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(list != null && list.size() > 0){
+                for(int i = 0;i < list.size();i ++){
+                    Address ad = list.get(i);
+                    cityName = ad.getLocality().toLowerCase();
+                    Log.i("location",cityName);
+                }
+            }else{
+                Log.i("location","nullll");
+            }
+            if(!cityList.contains(cityName) && !TextUtils.isEmpty(cityName)){
+                cityList.add(cityName);
+            }
+
+        }else{
+            Log.i("location","null");
+        }
+
+        return "";
+    }
+
+
+    private void beginLocation(String method){
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(this,"请授予定位权限并开启定位功能",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mLocationManager.requestLocationUpdates(method,300,0,mLocationListener);
+        Location location = mLocationManager.getLastKnownLocation(method);
+        getCurrentCity(location);
+    }
+
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            getCurrentCity(location);
+        }
+    };
+
 
     /*换壁纸的函数*/
     public void changebg(){
