@@ -137,8 +137,16 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         //设置显示天气情况的图片
         HashMap<String,Integer> map = new HashMap<>();
         map.put("PARTLY_CLOUDY_DAY",R.mipmap.icon);
-        map.put()
-        dateTv.setBackgroundResource(map.get(resultBean.getSkycon().get(0).getValue()));
+        map.put("PARTLY_CLOUDY_NIGHT",R.mipmap.cloudy_night);
+        map.put("CLEAR_DAY",R.mipmap.sunny);
+        map.put("CLOUDY",R.mipmap.cloudy);
+        map.put("LIGHT_RAIN",R.mipmap.light_rain);
+        map.put("RAIN",R.mipmap.rain);
+        map.put("MODERATE_RAIN",R.mipmap.medium_rain);
+        map.put("MODERATE_HAZE",R.mipmap.wumai);
+        map.put("CLEAR_NIGHT",R.mipmap.sunny_night);
+
+        dayIv.setImageResource(map.get(resultBean.getSkycon().get(0).getValue()));
 //        Picasso.get().load("www.acwing.com").into(dayIv);
 
         for(int i = 1;i <= 4;i++){
@@ -151,6 +159,8 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
             TextView itempTv = itemView.findViewById(R.id.item_center_tv_temp);
             ImageView iTv = itemView.findViewById(R.id.item_center_iv_temp);
 
+
+            iTv.setImageResource(map.get(resultBean.getSkycon().get(i).getValue()));
 
 //            Picasso.get().load("").into(iTv);
 
