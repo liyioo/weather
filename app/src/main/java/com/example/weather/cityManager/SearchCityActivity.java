@@ -3,7 +3,6 @@ package com.example.weather.cityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -83,7 +82,6 @@ public class SearchCityActivity extends BaseActivity implements View.OnClickList
         if(bean.getStatus().equals("ok")){
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-            Log.i("city22222",city);
             intent.putExtra("city",city);
             startActivity(intent);
         }else{
