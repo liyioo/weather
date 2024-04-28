@@ -90,6 +90,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
             Log.i("res",i+"");
             //如果找到了对应的城市记录就更新记录
             if(i <= 0 ){//如果没找到就添加到数据库里面
+                Log.i("db",city);
                 DBManager.addCityInfo(city,result);
                 Log.i("res",result);
             }

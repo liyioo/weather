@@ -30,15 +30,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.weather.base.BaseActivity;
 import com.example.weather.cityManager.CityManagerActivity;
 import com.example.weather.db.DBManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    ImageView addCity_iv,more_iv;
+public class MainActivity  extends AppCompatActivity implements View.OnClickListener {
+    ImageView addCity_iv,more_iv,location_iv;
     LinearLayout pointLayout;
     RelativeLayout layout;
     ViewPager mainVp;
@@ -52,9 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     CityWeatherFragment cwFragment;
     private SharedPreferences pref;
-    private LocationManager mLocationManager;//定位管理器对象
-    private Handler mHandler = new Handler();//处理器对象
-    private boolean isLocationEnable = false;//定位服务是否可用
+
     private int bgNum;
 
     @Override
@@ -65,12 +65,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         layout = findViewById(R.id.main);
         addCity_iv = findViewById(R.id.main_iv_add);
+        location_iv = findViewById(R.id.main_iv_location);
         more_iv = findViewById(R.id.main_iv_more);
         pointLayout = findViewById(R.id.main_bottom_layout_middle);
         mainVp = findViewById(R.id.main_vp);
         addCity_iv.setOnClickListener(this);
         more_iv.setOnClickListener(this);
-
+        location_iv.setOnClickListener(this);
 
         fragmentList = new ArrayList<>();
         cityList = DBManager.queryAllCityName();//获取数据库的城市列表
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
+        Log.i("city",city==null?"yes":city);
         if(!cityList.contains(city) && !TextUtils.isEmpty(city)){
             cityList.add(city);
         }
@@ -102,111 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
-    protected void onResume() {
-        Log.i("resume","resume");
-        super.onResume();
-        mHandler.removeCallbacks(mRefrsh);
-        initLocation();
-        mHandler.postDelayed(mRefrsh,100);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLocationManager.removeUpdates(mLocationListener);
-    }
-
-    private Runnable mRefrsh = new Runnable() {
-        @Override
-        public void run() {
-            if(!isLocationEnable){
-                initLocation();
-                mHandler.postDelayed(this,1000);
-            }
-        }
-    };
-
-    /*初始化定位服务*/
-    private void initLocation() {
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();//创建一个定位准则对象
-        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
-        criteria.setBearingRequired(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        String bestProvider = mLocationManager.getBestProvider(criteria,true);
-
-        if (bestProvider != null) {
-            if (mLocationManager.isProviderEnabled(bestProvider)) {
-                beginLocation(bestProvider);
-                isLocationEnable = true;
-            } else {
-                isLocationEnable = false;
-            }
-        } else {
-            Log.e("Location", "No provider found");
-            // 处理找不到位置提供程序的情况
-        }
-
-
-
-    }
-
-    private String getCurrentCity(Location location){
-        if(location != null){
-            String cityName = "";
-            Log.i("location",location.getLongitude() + "");
-
-//            String url3 = "https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/";
-            String lng = String.valueOf(location.getLongitude()) ;
-            String lat = String.valueOf(location.getLatitude());
-            /*String url4 = "/daily.json";
-            String urlNow = url3 + lng + "," +lat +url4;*/
-            Geocoder ge = new Geocoder(this);
-            List<Address> list = null;
-            try {
-                list = ge.getFromLocation(Double.parseDouble(lat),Double.parseDouble(lng),1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if(list != null && list.size() > 0){
-                for(int i = 0;i < list.size();i ++){
-                    Address ad = list.get(i);
-                    cityName = ad.getLocality().toLowerCase();
-                    Log.i("location",cityName);
-                }
-            }else{
-                Log.i("location","nullll");
-            }
-            if(!cityList.contains(cityName) && !TextUtils.isEmpty(cityName)){
-                cityList.add(cityName);
-            }
-
-        }else{
-            Log.i("location","null");
-        }
-
-        return "";
-    }
-
-
-    private void beginLocation(String method){
-        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"请授予定位权限并开启定位功能",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        mLocationManager.requestLocationUpdates(method,300,0,mLocationListener);
-        Location location = mLocationManager.getLastKnownLocation(method);
-        getCurrentCity(location);
-    }
-
-    private LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull Location location) {
-            getCurrentCity(location);
-        }
-    };
 
 
     /*换壁纸的函数*/
@@ -280,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.setClass(this, CityManagerActivity.class);
         }else if(v.getId() == R.id.main_iv_more){
             intent.setClass(this, MoreActivity.class);
+        }else if(v.getId() == R.id.main_iv_location){
+            intent.setClass(this, LocationActivity.class);
         }
 
         startActivity(intent);
@@ -289,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onRestart() {
         super.onRestart();
+        Log.i("restart","restart");
         /*获取数据库当前的城市集合*/
         List<String> list = DBManager.queryAllCityName();
         if(list.size() == 0){

@@ -26,7 +26,13 @@
             android:layout_height="match_parent"
             android:src="@drawable/more"
             android:layout_alignParentRight="true"/>
-
+    <ImageView
+        android:id="@+id/main_iv_location"
+        android:layout_width="50sp"
+        android:layout_height="match_parent"
+        android:src="@mipmap/location"
+        android:layout_toLeftOf="@+id/main_iv_more"
+        android:layout_marginRight="10dp"/>
         <LinearLayout
             android:id="@+id/main_bottom_layout_middle"
             android:layout_width="wrap_content"
