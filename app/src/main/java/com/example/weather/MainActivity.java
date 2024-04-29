@@ -92,6 +92,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         String city = intent.getStringExtra("city");
         Log.i("city",city==null?"yes":city);
         if(!cityList.contains(city) && !TextUtils.isEmpty(city)){
+            Log.i("city888",city==null?"yes":city);
             cityList.add(city);
         }
 
@@ -166,6 +167,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         for(int i = 0 ;i < cityList.size();i++){
             cwFragment = new CityWeatherFragment();
             Bundle bundle = new Bundle();
+            Log.i("city999",cityList.get(i));
             bundle.putString("city",cityList.get(i));
             cwFragment.setArguments(bundle);
             fragmentList.add(cwFragment);

@@ -81,7 +81,12 @@ public class CityManagerAdapter extends BaseAdapter {
             return "中雨";
         }else if(weather.equals("CLEAR_NIGHT")){
             return "晴夜";
+        }else if(weather.equals("HEAVY_RAIN")){
+            return "大雨";
+        }else if(weather.equals("STORM_RAIN")){
+            return "暴雨";
         }
+
         return weather ;
     }
 

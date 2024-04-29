@@ -130,7 +130,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
 
                     Address ad = list.get(0);
 
-                    city = "" + ad.getLocality();
+                    city = "" + ad.getSubLocality();
                     if(city != null){
                         tv_city = findViewById(R.id.location_tv_city);
                         tv_city.setText(city);

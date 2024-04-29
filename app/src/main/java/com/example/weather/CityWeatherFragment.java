@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.weather.base.BaseFragment;
 import com.example.weather.bean.CityInfoBean;
@@ -60,7 +61,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         String urlInfo = url1 + city + url2;
         String token = "Pc7FiRrbxSK03cOp";
         //实时天气情况
-
+        Log.i("city444",city);
         loadData(urlInfo);
 
         return view;
@@ -80,7 +81,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onSuccess(String result) {
         //解析数据并展示
-        Log.i("shuaxin" , result);
+        Log.i("citySU" , city);
         cnt = !cnt;
         if(cnt){
             parseShowData1(result);
@@ -105,12 +106,12 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 //        Log.i("city666",city);
 //        loadData(url1 + city + url2);
        String s = DBManager.queryInfoByCity(city);
-       Log.i("city666",city);
+       Log.i("city666",ex.toString());
        if(!TextUtils.isEmpty(s)){
            parseShowData1(s);
        }else{
            Log.i("city777",city);
-            
+
            loadData(url1 + city + url2);
        }
     }
@@ -125,9 +126,10 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         String url3 = "https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/";
         String lng = placesBean.getLocation().getLng() + "";
         String lat = placesBean.getLocation().getLat() + "";
+
         String url4 = "/daily.json";
         String urlNow = url3 + lng + "," +lat +url4;
-
+        Log.i("citypar1",city);
         loadData(urlNow);
     }
 
@@ -136,7 +138,10 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
         weatherNowBean nowBean = new Gson().fromJson(result,weatherNowBean.class);
         resultBean = nowBean.getResult().getDaily();
-
+        if(resultBean == null){
+            Log.i("citynull",city);
+        }
+        Log.i("citypar",city);
         windTv.setText("风速:"+(int)Double.parseDouble(resultBean.getWind().get(0).getMin().getSpeed() + "") + "~"+(int) Double.parseDouble(resultBean.getWind().get(0).getMax().getSpeed() + "")  );
         conditionTv.setText(toChinese(resultBean.getSkycon().get(0).getValue()));
         tempTv.setText(resultBean.getTemperature().get(0).getAvg() + "℃");
@@ -153,9 +158,11 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         map.put("MODERATE_RAIN",R.mipmap.medium_rain);
         map.put("MODERATE_HAZE",R.mipmap.wumai);
         map.put("CLEAR_NIGHT",R.mipmap.sunny_night);
+        map.put("HEAVY_RAIN",R.mipmap.heavy_rain);
+        map.put("STORM_RAIN",R.mipmap.heavy_wind_rain);
 
-        dayIv.setImageResource(map.get(resultBean.getSkycon().get(0).getValue()));
-//        Picasso.get().load("www.acwing.com").into(dayIv);
+        dayIv.setImageResource(map.get(resultBean.getSkycon().get(0).getValue()) );
+
 
         for(int i = 1;i <= 4;i++){
 
@@ -170,7 +177,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
             iTv.setImageResource(map.get(resultBean.getSkycon().get(i).getValue()));
 
-//            Picasso.get().load("").into(iTv);
+
 
             idateTv.setText(resultBean.getAstro().get(i).getDate().substring(0,10));
 
@@ -185,14 +192,14 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
 public static String toChinese(String weather){
         if(weather.equals("PARTLY_CLOUDY_DAY")){
-            return "少云天";
+            return "多云天";
         }
         else if(weather.equals("PARTLY_CLOUDY_NIGHT")){
-            return "少云夜";
+            return "多云夜";
         } else if (weather.equals("CLEAR_DAY")) {
             return "晴";
         }else if(weather.equals("CLOUDY")){
-            return "多云";
+            return "阴";
         }else if(weather.equals("LIGHT_RAIN")){
             return "小雨";
         }else if(weather.equals("RAIN")){
@@ -203,6 +210,10 @@ public static String toChinese(String weather){
             return "中度雾霾";
         }else if(weather.equals("CLEAR_NIGHT")){
             return "晴夜";
+        }else if(weather.equals("HEAVY_RAIN")){
+            return "大雨";
+        }else if(weather.equals("STORM_RAIN")){
+            return "暴雨";
         }
     return weather ;
 }
