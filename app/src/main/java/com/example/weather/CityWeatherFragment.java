@@ -90,7 +90,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
             Log.i("res",i+"");
             //如果找到了对应的城市记录就更新记录
             if(i <= 0 ){//如果没找到就添加到数据库里面
-                Log.i("db",city);
+                Log.i("city555",city);
                 DBManager.addCityInfo(city,result);
                 Log.i("res",result);
             }
@@ -102,9 +102,16 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
+//        Log.i("city666",city);
+//        loadData(url1 + city + url2);
        String s = DBManager.queryInfoByCity(city);
+       Log.i("city666",city);
        if(!TextUtils.isEmpty(s)){
            parseShowData1(s);
+       }else{
+           Log.i("city777",city);
+            
+           loadData(url1 + city + url2);
        }
     }
 

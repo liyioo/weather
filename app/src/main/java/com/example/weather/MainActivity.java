@@ -84,6 +84,10 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
             cityList.add("上海");
 
         }
+//        for(String it : cityList){
+//            Log.i("city99",it);
+//        }
+
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
         Log.i("city",city==null?"yes":city);
