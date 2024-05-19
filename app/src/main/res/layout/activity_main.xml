@@ -33,6 +33,14 @@
         android:src="@mipmap/location"
         android:layout_toLeftOf="@+id/main_iv_more"
         android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/main_iv_music"
+            android:layout_width="50sp"
+            android:layout_height="match_parent"
+            android:src="@mipmap/music"
+            android:layout_toRightOf="@+id/main_iv_add"
+            android:layout_marginLeft="10dp"/>
         <LinearLayout
             android:id="@+id/main_bottom_layout_middle"
             android:layout_width="wrap_content"

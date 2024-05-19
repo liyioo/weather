@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity  extends AppCompatActivity implements View.OnClickListener {
-    ImageView addCity_iv,more_iv,location_iv;
+    ImageView addCity_iv,more_iv,location_iv,music_iv;
     LinearLayout pointLayout;
     RelativeLayout layout;
     ViewPager mainVp;
@@ -72,6 +72,8 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         addCity_iv.setOnClickListener(this);
         more_iv.setOnClickListener(this);
         location_iv.setOnClickListener(this);
+        music_iv = findViewById(R.id.main_iv_music);
+        music_iv.setOnClickListener(this);
 
         fragmentList = new ArrayList<>();
         cityList = DBManager.queryAllCityName();//获取数据库的城市列表
@@ -185,6 +187,8 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
             intent.setClass(this, MoreActivity.class);
         }else if(v.getId() == R.id.main_iv_location){
             intent.setClass(this, LocationActivity.class);
+        }else if (v.getId() == R.id.main_iv_music){
+            intent.setClass(this,AudioPlayActivity.class);
         }
 
         startActivity(intent);

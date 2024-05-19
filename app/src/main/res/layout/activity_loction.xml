@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/location_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LocationActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="200dp"
+        >
+
+        <ImageView
+            android:layout_width="500sp"
+            android:layout_height="200sp"
+            android:src="@mipmap/shenyang"
+            android:id="@+id/location_iv_shenyang"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location_tv_desc"
+            android:text="当前定位为："
+            android:layout_below="@+id/location_iv_shenyang"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_centerHorizontal="true"
+
+            android:padding="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location_tv_city"
+            android:text="城市"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/location_tv_desc"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:background="@drawable/hot_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/location_tv_ensure"
+            android:text="确定"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/location_tv_city"
+            android:layout_centerHorizontal="true"
+            android:padding="6dp"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
