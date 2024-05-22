@@ -63,6 +63,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         city = bundle.getString("city");
         //https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
         String urlInfo = url1 + city + url2;
+        String token = "YdLmUTVCa5uJtca4";
 
         //实时天气情况
         Log.i("city444",city);
@@ -127,7 +128,8 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         Log.i("hello",bean+"");
         CityInfoBean.PlacesBean placesBean =  bean.getPlaces().get(0);
 //      https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
-        String url3 = "https://api.caiyunapp.com/v2.5/" + token + "/";
+        String url3 = "https://api.caiyunapp.com/v2.5/YdLmUTVCa5uJtca4/";
+
         String lng = placesBean.getLocation().getLng() + "";
         String lat = placesBean.getLocation().getLat() + "";
 //https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
@@ -138,7 +140,6 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
     }
 
     public void parseShowData(String result){
-
 
         weatherNowBean nowBean = new Gson().fromJson(result,weatherNowBean.class);
         resultBean = nowBean.getResult().getDaily();
@@ -180,9 +181,6 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
 
             iTv.setImageResource(map.get(resultBean.getSkycon().get(i).getValue()));
-
-
-
             idateTv.setText(resultBean.getAstro().get(i).getDate().substring(0,10));
 
             iconTv.setText(toChinese(resultBean.getSkycon().get(i).getValue()));
