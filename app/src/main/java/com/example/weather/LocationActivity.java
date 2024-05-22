@@ -60,8 +60,6 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
         mHandler.removeCallbacks(mRefrsh);
         initLocation();
         mHandler.postDelayed(mRefrsh,100);
-
-
     }
 
     @Override
@@ -101,8 +99,6 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
             Log.e("Location", "No provider found");
             // 处理找不到位置提供程序的情况
         }
-
-
 
     }
 

@@ -43,7 +43,11 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
     public boolean cnt = false;
     String city;
     String url1 = "https://api.caiyunapp.com/v2/place?query=";
-    String url2 = "&token={Pc7FiRrbxSK03cOp}&lang=zh_CN";
+    //https://api.caiyunapp.com/v2/place?query=北京&token=Pc7FiRrbxSK03cOp&lang=zh_CN
+    //https://api.caiyunapp.com/v2.5/YdLmUTVCa5uJtca4/116.378517,39.865246/daily.json
+    String token = "YdLmUTVCa5uJtca4";
+    String url2 = "&token=" + token + "&lang=zh_CN";
+
 
     private weatherBean.DataBean.ForecastBean todayBean;
     private weatherNowBean.ResultBean.DailyBean resultBean;
@@ -57,9 +61,9 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         changebg();
         Bundle bundle = getArguments();
         city = bundle.getString("city");
-
+        //https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
         String urlInfo = url1 + city + url2;
-        String token = "Pc7FiRrbxSK03cOp";
+
         //实时天气情况
         Log.i("city444",city);
         loadData(urlInfo);
@@ -120,13 +124,13 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         CityInfoBean bean = new Gson().fromJson(result,CityInfoBean.class);
 
         cityTv.setText(bean.getQuery());
-
+        Log.i("hello",bean+"");
         CityInfoBean.PlacesBean placesBean =  bean.getPlaces().get(0);
 //      https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
-        String url3 = "https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/";
+        String url3 = "https://api.caiyunapp.com/v2.5/" + token + "/";
         String lng = placesBean.getLocation().getLng() + "";
         String lat = placesBean.getLocation().getLat() + "";
-
+//https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
         String url4 = "/daily.json";
         String urlNow = url3 + lng + "," +lat +url4;
         Log.i("citypar1",city);
