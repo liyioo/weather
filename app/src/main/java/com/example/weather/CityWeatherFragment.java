@@ -125,8 +125,10 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         CityInfoBean bean = new Gson().fromJson(result,CityInfoBean.class);
 
         cityTv.setText(bean.getQuery());
-        Log.i("hello",bean+"");
         CityInfoBean.PlacesBean placesBean =  bean.getPlaces().get(0);
+
+        Log.i("hello",bean.getPlaces()+"hh");
+
 //      https://api.caiyunapp.com/v2.5/Pc7FiRrbxSK03cOp/116.378517,39.865246/daily.json
         String url3 = "https://api.caiyunapp.com/v2.5/YdLmUTVCa5uJtca4/";
 
@@ -169,16 +171,16 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         dayIv.setImageResource(map.get(resultBean.getSkycon().get(0).getValue()) );
 
 
-        for(int i = 1;i <= 4;i++){
+        for(int i = 1;i <= resultBean.getTemperature().size() - 1;i++){
 
             View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center,null);
             itemView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT) );
             futureLayout.addView(itemView);
+            
             TextView idateTv = itemView.findViewById(R.id.item_center_tv_date);
             TextView iconTv = itemView.findViewById(R.id.item_center_tv_con);
             TextView itempTv = itemView.findViewById(R.id.item_center_tv_temp);
             ImageView iTv = itemView.findViewById(R.id.item_center_iv_temp);
-
 
             iTv.setImageResource(map.get(resultBean.getSkycon().get(i).getValue()));
             idateTv.setText(resultBean.getAstro().get(i).getDate().substring(0,10));
