@@ -1,22 +1,32 @@
-package com.example.weather.bean;
+package com.example.weather.db;
 
-public class ScheduleInfo {
+public class SchDataBase {
 
+    private Integer _id;
     private String title;
     private String place;
     private String date;
     private String time;
-    private String desc;
+    private String description;
 
-    public ScheduleInfo() {
+    public SchDataBase() {
     }
 
-    public ScheduleInfo(String title, String place, String date, String time, String desc) {
+    public SchDataBase(Integer _id, String title, String place, String date, String time, String description) {
+        this._id = _id;
         this.title = title;
         this.place = place;
         this.date = date;
         this.time = time;
-        this.desc = desc;
+        this.description = description;
+    }
+
+    public Integer get_id() {
+        return _id;
+    }
+
+    public void set_id(Integer _id) {
+        this._id = _id;
     }
 
     public String getTitle() {
@@ -51,16 +61,16 @@ public class ScheduleInfo {
         this.time = time;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public String toString() {
-        return  title  +",地点：" + place + ",时间："  + time +   ",备注：" + desc ;
+        return "主要内容："+ title  +",地点：" + place + ",时间："  + time +   ",备注：" + description ;
     }
 }

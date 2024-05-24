@@ -71,7 +71,6 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
 
         fragmentList = new ArrayList<>();
         cityList = DBManager.queryAllCityName();//获取数据库的城市列表
-
         imgList = new ArrayList<>();
 
         changebg();
@@ -80,8 +79,6 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
             cityList.add("上海");
 
         }
-
-
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
         Log.i("city",city==null?"yes":city);
@@ -99,8 +96,6 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         mainVp.setCurrentItem(fragmentList.size() - 1);
 //设置ViewPager的页面监听器
         setPagerListener();
-
-
     }
 
     // 检查并请求音频权限

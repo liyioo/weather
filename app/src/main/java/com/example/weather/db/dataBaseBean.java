@@ -1,24 +1,24 @@
 package com.example.weather.db;
 
 public class dataBaseBean {
-    private int _id;
+    private Integer _id;
     private String city;
     private String content;
 
     public dataBaseBean() {
     }
 
-    public dataBaseBean(int _id, String city, String content) {
+    public dataBaseBean(Integer _id, String city, String content) {
         this._id = _id;
         this.city = city;
         this.content = content;
     }
 
-    public int get_id() {
+    public Integer get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
+    public void set_id(Integer _id) {
         this._id = _id;
     }
 
