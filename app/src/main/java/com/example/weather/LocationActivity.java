@@ -2,6 +2,7 @@ package com.example.weather;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -19,7 +20,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.weather.base.BaseActivity;
 import com.example.weather.bean.CityInfoBean;
@@ -41,6 +44,8 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
     TextView tv_ensure ;
     String city = "";
     private Intent intent;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 104;
+    private AlertDialog locationPermissionDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,9 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
         tv_ensure = findViewById(R.id.location_tv_ensure);
         tv_ensure.setOnClickListener(this);
 
+
     }
+
 
     @Override
     protected void onResume() {
@@ -65,6 +72,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         mLocationManager.removeUpdates(mLocationListener);
     }
 

@@ -12,6 +12,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +25,9 @@ import android.Manifest;
 import androidx.core.app.ActivityCompat;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,9 +43,11 @@ import java.util.Locale;
 public class MainActivity  extends AppCompatActivity implements View.OnClickListener {
     ImageView addCity_iv,more_iv,location_iv,music_iv;
     LinearLayout pointLayout;
+    private static final int AUDIO_PERMISSION_REQUEST_CODE = 100;
     RelativeLayout layout;
     ViewPager mainVp;
     private CityFragmentPagerAdapter adapter;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     //viewPager的数据源
     List<Fragment> fragmentList;
     //想要显示的城市集合
@@ -74,6 +77,8 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         location_iv.setOnClickListener(this);
         music_iv = findViewById(R.id.main_iv_music);
         music_iv.setOnClickListener(this);
+        // 检查并请求位置权限
+        checkAndRequestLocationPermissions();
 
         fragmentList = new ArrayList<>();
         cityList = DBManager.queryAllCityName();//获取数据库的城市列表
@@ -86,9 +91,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
             cityList.add("上海");
 
         }
-//        for(String it : cityList){
-//            Log.i("city99",it);
-//        }
+
 
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
@@ -111,6 +114,59 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
 
     }
 
+    // 检查并请求音频权限
+    private void checkAndRequestAudioPermission() {
+        // 检查是否已经授予 READ_MEDIA_AUDIO 权限
+        int audioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
+
+        // 如果未授予该权限，则请求权限
+        if (audioPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, AUDIO_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    // 检查并请求位置权限
+    private void checkAndRequestLocationPermissions() {
+        // 检查是否已经授予 ACCESS_FINE_LOCATION 和 ACCESS_COARSE_LOCATION 权限
+        int fineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        int coarseLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        // 如果未授予这两个权限中的任意一个，则请求权限
+        if (fineLocationPermission != PackageManager.PERMISSION_GRANTED || coarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
+    // 处理权限请求结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+            // 检查用户是否授予了请求的权限
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 用户授予权限，可以开始使用相关功能
+                Toast.makeText(this, "已授予音频文件权限", Toast.LENGTH_SHORT).show();
+                // 在这里可以执行读取音频文件的操作
+            } else {
+                // 用户拒绝了权限请求，可能需要提供一些解释或处理
+                Toast.makeText(this, "已拒绝授予音频文件权限", Toast.LENGTH_SHORT).show();
+            }
+        }else if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            // 检查用户是否授予了请求的权限
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // 用户授予权限，可以开始使用位置功能
+                Toast.makeText(this, "已授予定位权限", Toast.LENGTH_SHORT).show();
+                // 在这里可以执行获取位置信息的操作
+            } else {
+                // 用户拒绝了权限请求，可能需要提供一些解释或处理
+                Toast.makeText(this, "已拒绝授予定位权限", Toast.LENGTH_SHORT).show();
+            }
+            // 检查并请求音频权限
+            checkAndRequestAudioPermission();
+        }
+    }
 
 
     /*换壁纸的函数*/

@@ -1,5 +1,8 @@
 package com.example.weather;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -9,17 +12,25 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weather.bean.AudioInfo;
 import com.example.weather.util.FileUtil;
+import android.Manifest;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +53,9 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
             MediaStore.Audio.Media.DATA}; // 文件路径
     private AudioRecyclerAdapter mAdapter; // 音频列表的适配器
     private MediaPlayer mMediaPlayer = new MediaPlayer(); // 媒体播放器
+    private static final int READ_EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE = 103;
+    private AlertDialog permissionDialog;
+    private static final int AUDIO_PERMISSION_REQUEST_CODE = 102;
     private Timer mTimer = new Timer(); // 计时器
     private int mLastPosition = -1; // 上次播放的音频序号
     @Override
@@ -49,6 +63,9 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_audio_play);
+        // 检查并请求音频权限
+        checkAndRequestAudioPermission();
+
         rv_audio = findViewById(R.id.rv_audio);
         iv_pause = findViewById(R.id.iv_pause);
         iv_prev = findViewById(R.id.iv_prev);
@@ -67,6 +84,8 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
             }
         });
     }
+
+
 
     private void playPreviousAudio() {
         // 隐藏当前歌曲的进度条
@@ -102,6 +121,8 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
             // 可以在这里设置循环播放逻辑，如重新播放最后一首音频等
         }
     }
+
+
 
     private void playNextAudio() {
         // 隐藏上一首歌曲的进度条
@@ -185,9 +206,39 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
 
     }
 
+    // 检查并请求音频权限
+    private void checkAndRequestAudioPermission() {
+        // 检查是否已经授予 READ_MEDIA_AUDIO 权限
+        int audioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
+
+        // 如果未授予该权限，则请求权限
+        if (audioPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, AUDIO_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    // 处理权限请求结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+            // 检查用户是否授予了请求的权限
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 用户授予权限，可以开始使用相关功能
+                Toast.makeText(this, "Audio permission granted", Toast.LENGTH_SHORT).show();
+                // 在这里可以执行读取音频文件的操作
+            } else {
+                // 用户拒绝了权限请求，可能需要提供一些解释或处理
+                Toast.makeText(this, "Audio permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         mTimer.cancel(); // 取消计时器
         if (mMediaPlayer.isPlaying()) { // 是否正在播放
             mMediaPlayer.stop(); // 结束播放

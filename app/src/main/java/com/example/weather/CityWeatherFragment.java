@@ -104,8 +104,6 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
 
 
     }
-
-
     @Override
     public void onError(Throwable ex, boolean isOnCallback) {
 //        Log.i("city666",city);
