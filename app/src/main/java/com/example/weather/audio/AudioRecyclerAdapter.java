@@ -1,4 +1,4 @@
-package com.example.weather;
+package com.example.weather.audio;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.weather.R;
+import com.example.weather.RecyclerExtras;
 import com.example.weather.bean.AudioInfo;
 import com.example.weather.util.MediaUtil;
 

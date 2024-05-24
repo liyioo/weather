@@ -1,17 +1,9 @@
 package com.example.weather;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,19 +18,16 @@ import androidx.core.app.ActivityCompat;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.weather.base.BaseActivity;
+import com.example.weather.audio.AudioPlayActivity;
 import com.example.weather.cityManager.CityManagerActivity;
 import com.example.weather.db.DBManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity  extends AppCompatActivity implements View.OnClickListener {
     ImageView addCity_iv,more_iv,location_iv,music_iv;
@@ -244,7 +233,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         }else if(v.getId() == R.id.main_iv_location){
             intent.setClass(this, LocationActivity.class);
         }else if (v.getId() == R.id.main_iv_music){
-            intent.setClass(this,AudioPlayActivity.class);
+            intent.setClass(this, AudioPlayActivity.class);
         }
 
         startActivity(intent);

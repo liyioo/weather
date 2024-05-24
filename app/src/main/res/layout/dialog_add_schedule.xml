@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
+
+
+
+    <EditText
+        android:id="@+id/edit_text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="主要内容"
+        android:background="@drawable/hot_bg"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+
+    <ImageView
+        android:id="@+id/more_line5"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DCDCDC"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_text_place"
+        android:hint="地点"
+        android:background="@drawable/hot_bg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <ImageView
+        android:id="@+id/more_line4"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DCDCDC"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_text_time"
+        android:background="@drawable/hot_bg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="时间"/>
+
+    <ImageView
+        android:id="@+id/more_line3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#DCDCDC"
+        android:layout_marginTop="2dp"
+        />
+    <EditText
+        android:id="@+id/edit_text_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/hot_bg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:hint="备注"/>
+
+</LinearLayout>

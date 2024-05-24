@@ -23,7 +23,7 @@ import com.example.weather.db.DBManager;
 
 public class MoreActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView bgTv,cacheTv,versionTv,shareTv;
+    TextView bgTv,cacheTv,versionTv,shareTv,scheduleTv;
     RadioGroup exbgRg;
     ImageView backIv;
     private SharedPreferences pref;
@@ -38,10 +38,12 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
         shareTv = findViewById(R.id.more_tv_share);
         backIv = findViewById(R.id.more_iv_back);
         exbgRg = findViewById(R.id.more_rg);
+        scheduleTv = findViewById(R.id.more_tv_schedule);
         bgTv.setOnClickListener(this);
         cacheTv.setOnClickListener(this);
         shareTv.setOnClickListener(this);
         backIv.setOnClickListener(this);
+        scheduleTv.setOnClickListener(this);
         pref = getSharedPreferences("bg_pref",MODE_PRIVATE);
         String versionName = getVersionName();
         versionTv.setText("当前版本：  v"+versionName );
@@ -114,6 +116,8 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             shareSoftareMsg("说天气app是一款超萌超可爱的天气预报软件，画面简约，播报天气情况非常精准，快来下载吧！");
         }else if(v.getId() == R.id.more_iv_back){
             finish();
+        }else if(v.getId() == R.id.more_tv_schedule){
+            startActivity(new Intent(this,ScheduleActivity.class));
         }
     }
 

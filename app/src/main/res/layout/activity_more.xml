@@ -96,6 +96,26 @@
         android:button="@null"/>
 
     </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/more_tv_schedule"
+        android:text="日程中心"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@+id/more_rg"
+        android:drawableLeft="@mipmap/more_schedule"
+        android:drawablePadding="20dp"
+        android:padding="10dp"/>
+    <ImageView
+        android:id="@+id/more_line5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DCDCDC"
+        android:layout_below="@+id/more_tv_schedule"
+        />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,7 +123,7 @@
             android:text="当前版本"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:layout_below="@+id/more_rg"
+            android:layout_below="@+id/more_line5"
             android:drawableLeft="@mipmap/more_version"
             android:drawablePadding="20dp"
             android:padding="10dp"/>

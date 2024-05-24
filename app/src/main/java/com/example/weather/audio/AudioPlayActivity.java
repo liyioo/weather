@@ -1,7 +1,5 @@
-package com.example.weather;
+package com.example.weather.audio;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -12,7 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +24,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weather.R;
+import com.example.weather.RecyclerExtras;
 import com.example.weather.bean.AudioInfo;
 import com.example.weather.util.FileUtil;
 import android.Manifest;
