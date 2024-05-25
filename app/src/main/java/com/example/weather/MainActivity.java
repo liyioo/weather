@@ -37,6 +37,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
     ViewPager mainVp;
     private CityFragmentPagerAdapter adapter;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
+    private static final int REQUEST_CODE = 1001; // 用于标识权限请求的请求码
     //viewPager的数据源
     List<Fragment> fragmentList;
     //想要显示的城市集合
@@ -98,16 +99,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         setPagerListener();
     }
 
-    // 检查并请求音频权限
-    private void checkAndRequestAudioPermission() {
-        // 检查是否已经授予 READ_MEDIA_AUDIO 权限
-        int audioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
 
-        // 如果未授予该权限，则请求权限
-        if (audioPermission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, AUDIO_PERMISSION_REQUEST_CODE);
-        }
-    }
 
     // 检查并请求位置权限
     private void checkAndRequestLocationPermissions() {
@@ -119,6 +111,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         if (fineLocationPermission != PackageManager.PERMISSION_GRANTED || coarseLocationPermission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
+
     }
 
 
@@ -137,6 +130,7 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
                 // 用户拒绝了权限请求，可能需要提供一些解释或处理
                 Toast.makeText(this, "已拒绝授予音频文件权限", Toast.LENGTH_SHORT).show();
             }
+
         }else if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             // 检查用户是否授予了请求的权限
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
@@ -147,8 +141,18 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
                 // 用户拒绝了权限请求，可能需要提供一些解释或处理
                 Toast.makeText(this, "已拒绝授予定位权限", Toast.LENGTH_SHORT).show();
             }
-            // 检查并请求音频权限
-            checkAndRequestAudioPermission();
+
+        }else if (requestCode == REQUEST_CODE) {
+            // 检查权限是否已授予
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 权限已授予，继续创建通知
+                Toast.makeText(this, "已授予通知权限", Toast.LENGTH_SHORT).show();
+            } else {
+                // 权限被拒绝，处理用户拒绝权限的情况
+                // 您可以告知用户权限对于创建通知的必要性
+                // 或提供替代方案
+                Toast.makeText(this, "请授予通知权限以继续使用该功能", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

@@ -122,6 +122,36 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
     }
 
 
+    // 检查并请求音频权限
+    private void checkAndRequestAudioPermission() {
+        // 检查是否已经授予 READ_MEDIA_AUDIO 权限
+        int audioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
+
+        // 如果未授予该权限，则请求权限
+        if (audioPermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, AUDIO_PERMISSION_REQUEST_CODE);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
+            // 检查用户是否授予了请求的权限
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 用户授予权限，可以开始使用相关功能
+                Toast.makeText(this, "已授予音频文件权限", Toast.LENGTH_SHORT).show();
+                // 在这里可以执行读取音频文件的操作
+            } else {
+                // 用户拒绝了权限请求，可能需要提供一些解释或处理
+                Toast.makeText(this, "已拒绝授予音频文件权限", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    }
+
 
     private void playNextAudio() {
         // 隐藏上一首歌曲的进度条
@@ -203,35 +233,6 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
         mAdapter.setOnItemClickListener(this); // 设置线性列表的点击监听器
 
 
-    }
-
-    // 检查并请求音频权限
-    private void checkAndRequestAudioPermission() {
-        // 检查是否已经授予 READ_MEDIA_AUDIO 权限
-        int audioPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_AUDIO);
-
-        // 如果未授予该权限，则请求权限
-        if (audioPermission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_MEDIA_AUDIO}, AUDIO_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    // 处理权限请求结果
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == AUDIO_PERMISSION_REQUEST_CODE) {
-            // 检查用户是否授予了请求的权限
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // 用户授予权限，可以开始使用相关功能
-                Toast.makeText(this, "Audio permission granted", Toast.LENGTH_SHORT).show();
-                // 在这里可以执行读取音频文件的操作
-            } else {
-                // 用户拒绝了权限请求，可能需要提供一些解释或处理
-                Toast.makeText(this, "Audio permission denied", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
 
     @Override
