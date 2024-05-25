@@ -1,5 +1,8 @@
 package com.example.weather;
 
+import android.view.View;
+import android.widget.AdapterView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -46,4 +49,7 @@ public class CityFragmentPagerAdapter extends FragmentStatePagerAdapter {
         }
         return super.getItemPosition(object);
     }
+
+
+
 }

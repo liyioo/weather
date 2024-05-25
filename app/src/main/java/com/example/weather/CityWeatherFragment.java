@@ -174,7 +174,26 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
             View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center,null);
             itemView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT) );
             futureLayout.addView(itemView);
-            
+            int cnt = i;
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    // 设置对话框标题和内容，内容可以根据实际情况设置
+                    builder.setTitle("天气信息");
+                    builder.setMessage("天气："+toChinese(resultBean.getSkycon().get(cnt).getValue()) + "\n"
+                            +("最高温度：" + resultBean.getTemperature().get(cnt).getMax() + "℃") + "\n"
+                            + ("最大风速："+ resultBean.getWind().get(cnt).getMax().getSpeed() ) + "\n"
+                    + ("最低温度："+ resultBean.getTemperature().get(cnt).getMin() + "℃") + "\n"
+                    + ("平均湿度："+ resultBean.getHumidity().get(cnt).getAvg() ) + "\n"
+                    + ("平均PM2.5："+ resultBean.getAir_quality().getPm25().get(0).getAvg() ) + "\n"
+                    + ("平均可见度："+ resultBean.getVisibility().get(cnt).getAvg() ) + "\n")
+                    ;
+                    builder.setIcon(map.get(resultBean.getSkycon().get(cnt).getValue()));
+                    builder.setPositiveButton("确定", null);
+                    builder.create().show();
+                }
+            });
             TextView idateTv = itemView.findViewById(R.id.item_center_tv_date);
             TextView iconTv = itemView.findViewById(R.id.item_center_tv_con);
             TextView itempTv = itemView.findViewById(R.id.item_center_tv_temp);
@@ -219,6 +238,16 @@ public static String toChinese(String weather){
         }
     return weather ;
 }
+
+    // 方法用于显示天气信息对话框
+    public void showWeatherDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // 设置对话框标题和内容，内容可以根据实际情况设置
+        builder.setTitle("天气信息");
+        builder.setMessage("这里是天气信息");
+        builder.setPositiveButton("确定", null);
+        builder.create().show();
+    }
 
     private void initView(View view) {
         tempTv = view.findViewById(R.id.frag_tv_currnettemp);
