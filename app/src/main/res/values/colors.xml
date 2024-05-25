@@ -3,4 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lightgreen">#443d9140</color>
+    <color name="colorPrimary">#cc6600</color>
+    <color name="colorPrimaryDark">#660000</color>
+    <color name="colorAccent">#003366</color>
+    <color name="colorAccentDark">#660066</color>
+    <!-- 其他颜色 -->
+
 </resources>

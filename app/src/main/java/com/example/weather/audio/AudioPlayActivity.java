@@ -43,7 +43,7 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
     private RecyclerView rv_audio; // 音频列表的循环视图
     private List<AudioInfo> mAudioList = new ArrayList<AudioInfo>(); // 音频列表
     private Uri mAudioUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI; // 音频库的Uri
-    private ImageView iv_pause,iv_prev,iv_next;
+    private ImageView iv_pause,iv_prev,iv_next,iv_quick,iv_slow;
     private String[] mAudioColumn = new String[]{ // 媒体库的字段名称数组
             MediaStore.Audio.Media._ID, // 编号
             MediaStore.Audio.Media.TITLE, // 标题
@@ -69,11 +69,15 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
         iv_pause = findViewById(R.id.iv_pause);
         iv_prev = findViewById(R.id.iv_prev);
         iv_next = findViewById(R.id.iv_next);
+        iv_slow = findViewById(R.id.iv_slow);
+        iv_quick = findViewById(R.id.iv_quick);
         loadAudioList(); // 加载音频列表
         showAudioList(); // 显示音频列表
         iv_pause.setOnClickListener(this);
         iv_prev.setOnClickListener(this);
         iv_next.setOnClickListener(this);
+        iv_slow.setOnClickListener(this);
+        iv_quick.setOnClickListener(this);
         // 在播放完成监听器中实现顺序播放逻辑
         mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -238,7 +242,6 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         mTimer.cancel(); // 取消计时器
         if (mMediaPlayer.isPlaying()) { // 是否正在播放
             mMediaPlayer.stop(); // 结束播放
@@ -273,17 +276,7 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*mTimer = new Timer(); // 创建一个计时器
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                audio.setProgress(mMediaPlayer.getCurrentPosition()); // 设置进度条的当前进度
-                mAudioList.set(position, audio);
-                // 界面刷新操作需要在主线程执行，故而向处理器发送消息，由处理器在主线程更新界面
-                mHandler.sendEmptyMessage(position);
-                Log.d(TAG, "CurrentPosition="+mMediaPlayer.getCurrentPosition()+",position="+position);
-            }
-        }, 0, 1000); // 计时器每隔一秒就更新进度条上的播放进度*/
+
     }
 
     // 启动计时器更新进度条
@@ -299,7 +292,7 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
                 mHandler.sendEmptyMessage(position);
                 Log.d(TAG, "CurrentPosition="+mMediaPlayer.getCurrentPosition()+",position="+position);
             }
-        }, 0, 1000); // 计时器每隔一秒就更新进度条上的播放进度
+        }, 0, 500); // 计时器每隔一秒就更新进度条上的播放进度
     }
 
 
@@ -314,20 +307,37 @@ public class AudioPlayActivity extends AppCompatActivity implements RecyclerExtr
 
     @Override
     public void onClick(View v) {
-        Log.i("AudioPlayActivity","!!!!!!!!!!");
-        if(v.getId() == R.id.iv_pause){
+        if (v.getId() == R.id.iv_pause) {
             if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.pause(); // 暂停播放
-                ((ImageView)v).setImageResource(R.mipmap.pause); // 更改暂停按钮图标为播放图标
+                mMediaPlayer.pause();
+                ((ImageView) v).setImageResource(R.mipmap.pause);
             } else {
-                mMediaPlayer.start(); // 继续播放
-                ((ImageView)v).setImageResource(R.mipmap.running); // 更改播放按钮图标为暂停图标
+                mMediaPlayer.start();
+                ((ImageView) v).setImageResource(R.mipmap.running);
             }
-        }else if(v.getId() == R.id.iv_prev){
-            playPreviousAudio(); // 播放上一首歌曲
-        } else if(v.getId() == R.id.iv_next){
-            playNextAudio(); // 播放下一首歌曲
+        } else if (v.getId() == R.id.iv_prev) {
+            playPreviousAudio();
+        } else if (v.getId() == R.id.iv_next) {
+            playNextAudio();
+        } else if (v.getId() == R.id.iv_slow) {
+            // 实现快退功能
+            int currentPosition = mMediaPlayer.getCurrentPosition();
+            int newPosition = currentPosition - 10000; // 快退10秒（10000毫秒）
+            if (newPosition < 0) {
+                newPosition = 0; // 确保不会小于0
+            }
+            mMediaPlayer.seekTo(newPosition); // 跳转到新位置
+        } else if (v.getId() == R.id.iv_quick) {
+            // 实现快进功能
+            int currentPosition = mMediaPlayer.getCurrentPosition();
+            int duration = mMediaPlayer.getDuration();
+            int newPosition = currentPosition + 10000; // 快进10秒（10000毫秒）
+            if (newPosition > duration) {
+                newPosition = duration; // 确保不会超过总时长
+            }
+            mMediaPlayer.seekTo(newPosition); // 跳转到新位置
         }
     }
+
 
 }

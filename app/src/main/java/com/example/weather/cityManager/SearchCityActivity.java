@@ -12,18 +12,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.weather.MainActivity;
 import com.example.weather.R;
-import com.example.weather.base.BaseActivity;
+import com.example.weather.base.baseActivity;
 import com.example.weather.bean.CityInfoBean;
 import com.google.gson.Gson;
 
-public class SearchCityActivity extends BaseActivity implements View.OnClickListener {
+public class SearchCityActivity extends baseActivity implements View.OnClickListener {
 
     String city;
     EditText searchEt;

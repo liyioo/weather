@@ -5,13 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MoreActivity">
+    tools:context=".MoreActivity"
+    android:layout_marginTop="20dp"
+    android:background="?attr/input_changetheme">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/more_top_layout"
-        android:background="#F5F5F5"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -100,11 +103,30 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/more_tv_theme"
+        android:text="更换主题"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@+id/more_rg"
+        android:drawableLeft="@mipmap/more_theme"
+        android:drawablePadding="20dp"
+        android:padding="10dp"/>
+    <ImageView
+        android:id="@+id/more_line6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#DCDCDC"
+        android:layout_below="@+id/more_tv_theme"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/more_tv_schedule"
         android:text="日程中心"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:layout_below="@+id/more_rg"
+        android:layout_below="@+id/more_tv_theme"
         android:drawableLeft="@mipmap/more_schedule"
         android:drawablePadding="20dp"
         android:padding="10dp"/>
@@ -163,10 +185,5 @@
         android:drawableLeft="@mipmap/more_share"
         android:drawablePadding="20dp"
         android:padding="10dp"/>
-
-
-
-
-
 
 </RelativeLayout>

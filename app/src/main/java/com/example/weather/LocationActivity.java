@@ -2,7 +2,6 @@ package com.example.weather;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -22,9 +21,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import com.example.weather.base.BaseActivity;
+import com.example.weather.base.baseActivity;
 import com.example.weather.bean.CityInfoBean;
 import com.google.gson.Gson;
 
@@ -32,14 +30,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class LocationActivity extends BaseActivity implements View.OnClickListener {
+public class LocationActivity extends baseActivity implements View.OnClickListener {
 
 
     private LocationManager mLocationManager;//定位管理器对象
     private Handler mHandler = new Handler();//处理器对象
     private boolean isLocationEnable = false;//定位服务是否可用
     String url1 = "https://api.caiyunapp.com/v2/place?query=";
-    String url2 = "&token={Pc7FiRrbxSK03cOp}&lang=zh_CN";
+    String token = "YdLmUTVCa5uJtca4";
+    String url2 = "&token={" + token + "}&lang=zh_CN";
     TextView tv_city;
     TextView tv_ensure ;
     String city = "";

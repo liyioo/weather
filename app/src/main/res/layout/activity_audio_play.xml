@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    android:layout_marginTop="20dp">
+    android:layout_marginTop="20dp"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -56,6 +57,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:id="@+id/iv_slow"
+            android:src="@mipmap/slow"
+            android:scaleType="centerInside"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:id="@+id/iv_prev"
             android:src="@mipmap/prev"
             android:scaleType="centerInside"/>
@@ -68,14 +77,20 @@
             android:src="@mipmap/running"
             android:scaleType="centerInside"/>
 
-
-
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/iv_next"
             android:src="@mipmap/next"
+            android:scaleType="centerInside"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/iv_quick"
+            android:src="@mipmap/quick"
             android:scaleType="centerInside"/>
 
 

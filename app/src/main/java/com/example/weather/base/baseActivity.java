@@ -6,7 +6,7 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-public class BaseActivity extends AppCompatActivity implements Callback.CommonCallback <String>{
+public class baseActivity extends AppCompatActivity implements Callback.CommonCallback <String>{
 
     public void loadData(String url)
     {

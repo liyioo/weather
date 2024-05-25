@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<style name="todaytext">
+        <attr name="input_changetheme" format="reference" />
+    <attr name="important_fonts_title" format="reference" />
+
+
+
+    <style name="todaytext">
     <item name="android:layout_width">wrap_content</item>
     <item name="android:layout_height">wrap_content</item>
     <item name="android:textSize">18sp</item>
@@ -16,6 +21,28 @@
         <item name="android:drawablePadding">5dp</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+    <!-- 日间模式主题 -->
+    <style name="comman" parent="AppTheme">
+        <!-- 定义日间模式的样式属性 -->
+        <item name="input_changetheme">@color/white</item>
+        <item name="important_fonts_title">@color/black</item>
+        <item name="colorAccent">@color/black</item>
+        <!-- 其他日间模式的样式属性 -->
+    </style>
+
+    <!-- 夜间模式主题 -->
+    <style name="dark" parent="AppTheme">
+        <!-- 定义夜间模式的样式属性 -->
+        <item name="input_changetheme">@color/lightgreen</item>
+        <item name="important_fonts_title">@color/white</item>
+        <item name="colorAccent">@color/white</item>
+        <!-- 其他夜间模式的样式属性 -->
+    </style>
+
+
 
 
 </resources>
