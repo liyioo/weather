@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,16 +28,24 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.weather.db.DBManager;
 
-public class MoreActivity extends BaseActivity implements View.OnClickListener {
+public class MoreActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView bgTv, cacheTv, versionTv, shareTv, scheduleTv, themeTv;
     RadioGroup exbgRg;
     ImageView backIv;
     private SharedPreferences pref;
+    private SharedPreferences pref2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref2 = getSharedPreferences("theme_pref", MODE_PRIVATE);
+        // 根据保存的主题模式设置当前的主题
+        if (pref2.getBoolean("is_night_mode", true)) {
+            setNightMode(true);
+        } else {
+            setNightMode(false);
+        }
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_more);
@@ -58,10 +67,33 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
 
         String versionName = getVersionName();
         versionTv.setText("当前版本：  v" + versionName);
-        Log.i("rool", "hh");
-
         setRGListener();
     }
+
+
+    // 切换夜间模式和日间模式
+    protected void toggleNightMode(boolean isNightMode) {
+        SharedPreferences.Editor editor = pref2.edit();
+        editor.putBoolean("is_night_mode", isNightMode);
+        editor.apply();
+        // 重新创建当前 Activity 以应用新的主题
+        recreate();
+    }
+
+    // 设置夜间模式和日间模式
+    protected void setNightMode(boolean isNightMode) {
+        SharedPreferences.Editor editor = pref2.edit();
+        editor.putBoolean("is_night_mode", isNightMode);
+        editor.apply();
+        if (isNightMode) {
+            // 设置夜间模式主题
+            setTheme(R.style.dark);
+        } else {
+            // 设置日间模式主题
+            setTheme(R.style.comman);
+        }
+    }
+
 
     private void setRGListener() {
         exbgRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -157,6 +189,25 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent);
             }
         }).setNegativeButton("取消", null);
-        builder.create().show();
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                // 获取到对应的 TextView
+                TextView messageTextView = dialog.findViewById(android.R.id.message);
+                Button positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                if (positiveButton != null) {
+                    positiveButton.setTextColor(Color.BLACK); // 设置确认按钮文本颜色为黑色
+                }
+
+                // 获取取消按钮
+                Button negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                if (negativeButton != null) {
+                    negativeButton.setTextColor(Color.BLACK); // 设置取消按钮文本颜色为黑色
+                }
+            }
+        });
+
+        dialog.show();
     }
 }
