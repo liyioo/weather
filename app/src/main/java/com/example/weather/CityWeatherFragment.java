@@ -167,10 +167,7 @@ public class CityWeatherFragment extends BaseFragment implements View.OnClickLis
         map.put("STORM_RAIN",R.mipmap.heavy_wind_rain);
 
         dayIv.setImageResource(map.get(resultBean.getSkycon().get(0).getValue()) );
-
-
-        for(int i = 1;i <= resultBean.getTemperature().size() - 1;i++){
-
+        for(int i = 0;i <= resultBean.getTemperature().size() - 1;i++){
             View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_main_center,null);
             itemView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT) );
             futureLayout.addView(itemView);

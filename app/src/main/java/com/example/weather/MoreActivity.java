@@ -124,7 +124,7 @@ public class MoreActivity extends BaseActivity implements View.OnClickListener {
         } else if (v.getId() == R.id.more_tv_cache) {
             clearCache();
         } else if (v.getId() == R.id.more_tv_share) {
-            shareSoftareMsg("说天气app是一款超萌超可爱的天气预报软件，画面简约，播报天气情况非常精准，快来下载吧！");
+            shareSoftareMsg("weather是一款对用户友好，易上手的天气预报软件，画面简约，播报天气情况非常精准，快来下载吧！");
         } else if (v.getId() == R.id.more_iv_back) {
             finish();
         } else if (v.getId() == R.id.more_tv_schedule) {

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".cityManager.DeleteCityActivity">
+    tools:context=".cityManager.DeleteCityActivity"
+    android:layout_marginTop="20dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
