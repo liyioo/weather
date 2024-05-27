@@ -79,7 +79,6 @@ public class ScheduleAdapter extends BaseAdapter implements AdapterView.OnItemCl
         editTextDescription.setText(SchDataBase.getDescription());
         editTextTime.setText(SchDataBase.getTime());
         editTextPlace.setText(SchDataBase.getPlace());
-
         builder.setTitle("编辑日程");
         builder.setPositiveButton("保存", new DialogInterface.OnClickListener() {
             @Override
@@ -133,8 +132,6 @@ public class ScheduleAdapter extends BaseAdapter implements AdapterView.OnItemCl
                 mScheduleList.remove(position);
                 mScheduleList = SchManager.querySchInfoByDate(date);
                 notifyDataSetChanged();
-
-
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

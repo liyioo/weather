@@ -106,7 +106,10 @@ public class SchManager {
         Log.d("SchManager", "Updated " + rowsUpdated + " rows.");
     }
 
-
+    public static void deleteAllInfo(){
+        String sql = "delete from schInfo";
+        database.execSQL(sql);
+    }
 
 
 

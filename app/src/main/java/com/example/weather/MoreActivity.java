@@ -27,6 +27,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.weather.db.DBManager;
+import com.example.weather.db.SchManager;
 
 public class MoreActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -183,6 +184,7 @@ public class MoreActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DBManager.deleteAllInfo();
+                SchManager.deleteAllInfo();
                 Toast.makeText(MoreActivity.this, "已清除所有缓存", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MoreActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

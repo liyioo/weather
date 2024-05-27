@@ -113,8 +113,6 @@ public class MainActivity  extends AppCompatActivity implements View.OnClickList
         }
 
     }
-
-
     // 处理权限请求结果
     @Override
     public void onRequestPermissionsResult(int requestCode, @android.support.annotation.NonNull String[] permissions, @NonNull int[] grantResults) {
